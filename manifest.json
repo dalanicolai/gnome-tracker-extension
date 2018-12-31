@@ -1,0 +1,21 @@
+{
+  "manifest_version": "2",
+  "api_version": "1",
+  "name": "Gnome tracker",
+  "description": "Deep search files using gnome tracker",
+  "developer_name": "Daniel Nicolai",
+  "icon": "images/gnome3D.png",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "gt_kw",
+      "type": "keyword",
+      "name": "Gnome tracker",
+      "description": "Deep search files using gnome tracker",
+      "default_value": "gt"
+    }
+  ]
+}
+
