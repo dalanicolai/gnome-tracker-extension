@@ -21,7 +21,7 @@ class KeywordQueryEventListener(EventListener):
     def on_event(self, event, extension):
 		
         query_words = event.get_argument()
-        home_folder = home = os.getenv("HOME")
+        home = os.getenv("HOME")
         
         command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) \
                    WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) \
