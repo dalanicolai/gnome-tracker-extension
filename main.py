@@ -28,7 +28,7 @@ class KeywordQueryEventListener(EventListener):
                    . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
         
         output = subprocess32.check_output(command)          
-        results = [i.split(',') for i in output.splitlines()][1:-1]
+        results = [i.split(',') for i in output.splitlines()][1:255]
         print(results)
 		
         items = []
