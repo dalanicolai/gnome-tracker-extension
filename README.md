@@ -4,7 +4,7 @@ Ulauncher extension for deep search filesystem via the gnome tracker index. This
 ## Requirements (optional)
 
 yad  
-python3
+python3  
 python gtk+ library (on ubuntu python3-gi)
 
 ## Description
