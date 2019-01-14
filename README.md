@@ -31,6 +31,6 @@ If yad is installed, the extension will open a yad dialog offering different act
 
 The yad dialog offers an option to open a GTK+ 3 open with dialog. The script launching this dialog is written in python3 and uses the python3 gtk library.
 
-#### Contact
+### Contact
 
 If you have any requests or comments relating to this extension than email me on dalanicolai@gmail.com
