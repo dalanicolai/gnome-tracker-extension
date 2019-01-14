@@ -9,7 +9,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-import notify2
+#import notify2
 
 def application_activated(appchooserwidget, desktopappinfo):
     app_info = appchooserwidget.get_app_info()
@@ -21,6 +21,7 @@ filename = sys.argv[1]
 mime = mimetypes.guess_type(filename)[0]
 
 ### uncomment send notification with filename = sys.argv[1] for debugging purposes
+### also uncomment import statement above
 
 # notify2.init('appchooser')
 # n = notify2.Notification("Open file",
