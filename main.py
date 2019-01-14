@@ -39,7 +39,7 @@ class KeywordQueryEventListener(EventListener):
             from search import search
             out = search(query_words,28834)
             output = [[doc.getFilename(),doc.getPathStr(),doc.getLastModifiedStr()] for doc in out]
-            results = sorted(output, key=lambda entry: entry[2])
+            results = sorted(output, key=lambda entry: entry[2])[::-1]
 
             items = []
             for i in results:
