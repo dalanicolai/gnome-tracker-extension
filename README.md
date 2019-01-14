@@ -1,4 +1,4 @@
-# gnome-tracker-extension
+# Tracker/docfetcher deep file search
 Ulauncher extension for deep search filesystem via the gnome tracker index. This extension additionally offers two easy customizable widgets using bash or python3 rexpectively for ulaction and appchooser.py
 
 ## Requirements (optional)
