@@ -1,4 +1,4 @@
-import subprocess32
+import subprocess
 import os
 import distutils.spawn
 
@@ -37,9 +37,9 @@ class KeywordQueryEventListener(EventListener):
         if keyword == 'df':
             print('wat is dit', event.get_keyword())
             from search import search
-            output = search(query_words,28834)
-            results = [[doc.getFilename(),doc.getPathStr()] for doc in output]
-            print("dit is", output[0].getPathStr())
+            out = search(query_words,28834)
+            output = [[doc.getFilename(),doc.getPathStr(),doc.getLastModifiedStr()] for doc in out]
+            results = sorted(output, key=lambda entry: entry[2])
 
             items = []
             for i in results:
@@ -51,14 +51,14 @@ class KeywordQueryEventListener(EventListener):
         else:
             if keyword == 'gt':
                 command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
-                output = subprocess32.check_output(command)          
+                output = subprocess.check_output(command)          
                 pre_results = [i.split(', ') for i in output.splitlines()][::-1][1:-1][:20]
                 results = [[pre_results[i][0][2:],pre_results[i][1][7:]] for i in range(len(pre_results))]
 
             elif keyword == 'ts':
                 import re
 
-                out1 = subprocess32.check_output(['tracker','search',query_words])
+                out1 = subprocess.check_output(['tracker','search',query_words])
                 out2 = [i for i in out1.splitlines()]
                 out3 = [re.sub('\x1b[^m]*m', '', i).strip() for i in out2[1:]]
                 pre_results = list(chunks(out3,3))[:-1]
