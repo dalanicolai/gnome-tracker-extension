@@ -1,5 +1,5 @@
 # gnome-tracker-extension
-Ulauncher extension for deep search filesystem via the gnome tracker index
+Ulauncher extension for deep search filesystem via the gnome tracker index. 
 
 ## Requirements (optional)
 
@@ -11,7 +11,14 @@ python3
 This extension provides filesystem deep search functionality via gnome tracker or docfetcher (respective keywords: gt and df). Additionally it has an option to search using the tracker search command (keyword: ts)
 ## Installation
 
-Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension
+Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension  
+
+Subsequently navigate to the ~/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension directory and change permission to executable for the two files:
+
+ulaction
+appchooser.py
+
+(Right click the files in the file browser and check 'allow executing file as program' under properties -> permissions. Or issue "sudo chmod u+x filename" in the terminal)
 
 ### Choose action with yad dialog
 
