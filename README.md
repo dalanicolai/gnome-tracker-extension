@@ -3,7 +3,7 @@ Ulauncher extension for deep search filesystem via the gnome tracker index
 
 ## Requirements (optional)
 
-yad
+yad  
 python3
 
 ## Description
