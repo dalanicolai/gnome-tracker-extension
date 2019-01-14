@@ -5,6 +5,7 @@ Ulauncher extension for deep search filesystem via the gnome tracker index. This
 
 yad  
 python3
+python gtk+ library (on ubuntu python3-gi)
 
 ## Description
 
@@ -28,7 +29,7 @@ If yad is installed, the extension will open a yad dialog offering different act
 
 #### Open with dialog
 
-The yad dialog offers an option to open a GTK+ 3 open with dialog. The script launching this dialog is written in python3.
+The yad dialog offers an option to open a GTK+ 3 open with dialog. The script launching this dialog is written in python3 and uses the python3 gtk library.
 
 ####
 
