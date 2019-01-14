@@ -15,7 +15,7 @@ Add the plugin via the extension menu in the ulauncher settings using the URL: h
 
 Subsequently navigate to the ~/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension directory and change permission to executable for the two files:
 
-ulaction
+ulaction  
 appchooser.py
 
 (Right click the files in the file browser and check 'allow executing file as program' under properties -> permissions. Or issue "sudo chmod u+x filename" in the terminal)
