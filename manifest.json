@@ -4,7 +4,7 @@
   "name": "Gnome tracker",
   "description": "Deep search files using gnome tracker",
   "developer_name": "Daniel Nicolai",
-  "icon": "images/gnome3D.png",
+  "icon": "images/detective_penguin.png",
   "options": {
     "query_debounce": 0.1
   },
@@ -15,6 +15,20 @@
       "name": "Gnome tracker",
       "description": "Deep search files using gnome tracker",
       "default_value": "gt"
+    },
+    {
+      "id": "ts_kw",
+      "type": "keyword",
+      "name": "Tracker search",
+      "description": "Deep search files using tracker search",
+      "default_value": "ts"
+    },
+    {
+      "id": "df_kw",
+      "type": "keyword",
+      "name": "DocFetcher",
+      "description": "Deep search files using DocFetcher",
+      "default_value": "df"
     }
   ]
 }
