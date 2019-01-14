@@ -13,6 +13,7 @@ This extension provides filesystem deep search functionality via gnome tracker o
 
 Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension  
 
+#### !!! THE FOLOWING ACTION MUST BE REPEATED AFTER EVERY UPDATE (UNFORTUNATELY) !!!
 Subsequently navigate to the ~/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension directory and change permission to executable for the two files:
 
 ulaction  

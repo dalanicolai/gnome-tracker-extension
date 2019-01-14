@@ -1,4 +1,5 @@
 #!/bin/bash
+# This file takes a filename as argument and opens a yad file action dialog
 
 script_name=$0
 

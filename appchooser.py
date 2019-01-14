@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# This script takes one filename as argument and opens a openwith gtk window 
 
 import sys
 import subprocess
