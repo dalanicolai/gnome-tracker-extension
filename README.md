@@ -1,3 +1,5 @@
+!!! IMPORTANT !!! For full functionality permissions must be changed on two files AFTER EVERY UPGRADE (unfortunately), see below.
+
 # Tracker/docfetcher deep file search
 Ulauncher extension for deep search filesystem via the gnome tracker index. This extension additionally offers two easy customizable widgets using bash or python3 rexpectively for ulaction and appchooser.py
 
@@ -5,11 +7,12 @@ Ulauncher extension for deep search filesystem via the gnome tracker index. This
 
 yad  
 python3  
-python gtk+ library (on ubuntu python3-gi)
+python gtk+ library (fedora -> python3-gobject, ubuntu -> python3-gi)
 
 ## Description
 
-This extension provides filesystem deep search functionality via gnome tracker or docfetcher (respective keywords: gt and df). Additionally it has an option to search using the tracker search command (keyword: ts)
+This extension provides filesystem deep search functionality via gnome tracker or docfetcher (respective keywords: gt and df) and near instant full system file search via the locate command (keyword: lc + 2x g for grep). Additionally it has an option to deep search files using the tracker search command which returns text snippets (keyword: ts). The output can be opened with your prefered application.
+
 ## Installation
 
 Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension  
