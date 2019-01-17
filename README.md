@@ -1,4 +1,4 @@
-!!! IMPORTANT !!! For full functionality permissions must be changed on two files AFTER EVERY UPGRADE (unfortunately) Quick instructions below.
+!!! IMPORTANT !!! For full functionality permissions must be changed on two files AFTER EVERY UPGRADE (unfortunately). Quick instructions below.
 
 # Tracker/docfetcher deep file search
 Ulauncher extension for deep search filesystem via the gnome tracker index. This extension additionally offers two easy customizable widgets using bash or python3 rexpectively for ulaction and appchooser.py
