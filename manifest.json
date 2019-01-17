@@ -29,6 +29,13 @@
       "name": "DocFetcher",
       "description": "Deep search files using DocFetcher",
       "default_value": "df"
+    },
+    {
+      "id": "lc_kw",
+      "type": "keyword",
+      "name": "locate",
+      "description": "Instantly find files using locate command",
+      "default_value": "lc"
     }
   ]
 }

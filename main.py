@@ -65,6 +65,25 @@ class KeywordQueryEventListener(EventListener):
                 print(pre_results)
                 results = [[pre_results[i][1],pre_results[i][0][7:]] for i in range(len(pre_results))]
 
+            elif keyword == 'lc':
+                words = query_words.split(' ')
+                if len(words) == 1:
+                    output = subprocess.check_output(['locate','-l','11', query_words])
+                    pre_results = output.splitlines() 
+                    results = [[os.path.basename(i),i] for i in pre_results]
+                elif len(words) == 3 and words[1] == 'g':
+                    loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
+                    output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout)
+                    pre_results = output.splitlines() 
+                    results = [[os.path.basename(i),i] for i in pre_results]
+                elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
+                    loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
+                    grep1 = subprocess.Popen(('grep', words[2]),stdin=loc.stdout, stdout=subprocess.PIPE)
+                    output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout)
+                    print(output)
+                    pre_results = output.splitlines() 
+                    results = [[os.path.basename(i),i] for i in pre_results]
+
 
             if yad_path == None:
                 items = []
