@@ -7,7 +7,11 @@ from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
+from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
+from ulauncher.api.shared.action.OpenWithAction import OpenWithAction
+
+import appchooser
 
 yad_path = distutils.spawn.find_executable('yad')
 
@@ -22,6 +26,7 @@ class GnomeTrackerExtension(Extension):
     def __init__(self):
         super(GnomeTrackerExtension, self).__init__()
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
+        self.subscribe(ItemEnterEvent, ItemEnterEventListener())
 
 
 class KeywordQueryEventListener(EventListener):
@@ -39,14 +44,15 @@ class KeywordQueryEventListener(EventListener):
             from search import search
             out = search(query_words,28834)
             output = [[doc.getFilename(),doc.getPathStr(),doc.getLastModifiedStr()] for doc in out]
-            results = sorted(output, key=lambda entry: entry[2])
+            results = sorted(output, key=lambda entry: entry[2])[::-1]
 
             items = []
             for i in results:
+                data = '%s' %i[1]
                 items.append(ExtensionResultItem(icon='images/docfetcher.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
-                                                 on_enter=RunScriptAction("~/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/ulaction '%s'" %i[1].replace("%20"," "), None)))      
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))     
         
         else:
             if keyword == 'gt':
@@ -65,23 +71,49 @@ class KeywordQueryEventListener(EventListener):
                 print(pre_results)
                 results = [[pre_results[i][1],pre_results[i][0][7:]] for i in range(len(pre_results))]
 
+            elif keyword == 'lc':
+                words = query_words.split(' ')
+                if len(words) == 1:
+                    output = subprocess.check_output(['locate','-l','11', query_words])
+                    pre_results = output.splitlines() 
+                    results = [[os.path.basename(i),i] for i in pre_results]
+                elif len(words) == 3 and words[1] == 'g':
+                    loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
+                    output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout)
+                    pre_results = output.splitlines() 
+                    results = [[os.path.basename(i),i] for i in pre_results]
+                elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
+                    loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
+                    grep1 = subprocess.Popen(('grep', words[2]),stdin=loc.stdout, stdout=subprocess.PIPE)
+                    output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout)
+                    print(output)
+                    pre_results = output.splitlines() 
+                    results = [[os.path.basename(i),i] for i in pre_results]
 
-            if yad_path == None:
-                items = []
-                for i in results:
-                    items.append(ExtensionResultItem(icon='images/gnome.png',
-                                                     name='%s' %i[0],
-                                                     description="%s" %i[1],
-                                                     on_enter=RunScriptAction("xdg-open '%s'" %i[1], None)))
+            items = []
+            for i in results:
+                data = '%s' %i[1]
+                items.append(ExtensionResultItem(icon='images/gnome.png',
+                                                 name='%s' %i[0],
+                                                 description="%s" %i[1],
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+        return RenderResultListAction(items)
+
+class ItemEnterEventListener(EventListener):
+
+    def on_event(self, event, extension):
+        options = [['Launch with default application', 'xdg-open','detective_penguin'], ['Launch with other application', 'other','filebrowser'], ['File browser', 'nautilus', 'filebrowser'], ['Text editor', 'gedit', 'texteditor']] 
+        data = event.get_data()
+        items = []
+        for i in options:
+            if i[1] == 'other':
+                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+                                             name='%s' %i[0],
+                                             on_enter=OpenWithAction(data)))
             else:
-                items = []
-                for i in results:
-                    items.append(ExtensionResultItem(icon='images/gnome.png',
-                                                     name='%s' %i[0],
-                                                     description="%s" %i[1],                                              
-                                                     on_enter=RunScriptAction("~/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/ulaction '%s'" %i[1].replace("%20"," "), None)))       
-
-
+                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+                                             name='%s' %i[0],
+                                             on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
         return RenderResultListAction(items)
 
 if __name__ == '__main__':

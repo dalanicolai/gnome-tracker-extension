@@ -3,7 +3,7 @@
   "api_version": "1",
   "name": "Gnome tracker",
   "description": "Deep search files using gnome tracker",
-  "developer_name": "Daniel Nicolai",
+  "developer_name": "Daniel Nicolai  !!! CHECK README FILE TO ENABLE FULL FUNCTIONALITY, e.g. open with !!!",
   "icon": "images/detective_penguin.png",
   "options": {
     "query_debounce": 0.1
@@ -29,6 +29,13 @@
       "name": "DocFetcher",
       "description": "Deep search files using DocFetcher",
       "default_value": "df"
+    },
+    {
+      "id": "lc_kw",
+      "type": "keyword",
+      "name": "locate",
+      "description": "Instantly find files using locate command",
+      "default_value": "lc"
     }
   ]
 }
