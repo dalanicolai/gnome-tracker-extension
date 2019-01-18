@@ -7,7 +7,11 @@ from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
+from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
+#from ulauncher.api.shared.action.OpenWithAction import OpenWithAction
+
+# import appchooser
 
 yad_path = distutils.spawn.find_executable('yad')
 
@@ -22,6 +26,7 @@ class GnomeTrackerExtension(Extension):
     def __init__(self):
         super(GnomeTrackerExtension, self).__init__()
         self.subscribe(KeywordQueryEvent, KeywordQueryEventListener())
+        self.subscribe(ItemEnterEvent, ItemEnterEventListener())
 
 
 class KeywordQueryEventListener(EventListener):
@@ -43,10 +48,11 @@ class KeywordQueryEventListener(EventListener):
 
             items = []
             for i in results:
+                data = '%s' %i[1]
                 items.append(ExtensionResultItem(icon='images/docfetcher.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
-                                                 on_enter=RunScriptAction("~/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/ulaction '%s'" %i[1].replace("%20"," "), None)))      
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))     
         
         else:
             if keyword == 'gt':
@@ -84,23 +90,31 @@ class KeywordQueryEventListener(EventListener):
                     pre_results = output.splitlines() 
                     results = [[os.path.basename(i),i] for i in pre_results]
 
+            items = []
+            for i in results:
+                data = '%s' %i[1]
+                items.append(ExtensionResultItem(icon='images/gnome.png',
+                                                 name='%s' %i[0],
+                                                 description="%s" %i[1],
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+        return RenderResultListAction(items)
 
-            if yad_path == None:
-                items = []
-                for i in results:
-                    items.append(ExtensionResultItem(icon='images/gnome.png',
-                                                     name='%s' %i[0],
-                                                     description="%s" %i[1],
-                                                     on_enter=RunScriptAction("xdg-open '%s'" %i[1], None)))
+class ItemEnterEventListener(EventListener):
+
+    def on_event(self, event, extension):
+        options = [['Launch with default application', 'xdg-open','detective_penguin'], ['Launch with other application', 'other','filebrowser'], ['File browser', 'nautilus', 'filebrowser'], ['Text editor', 'gedit', 'texteditor']] 
+        data = event.get_data().replace("%20"," ")
+        items = []
+        for i in options:
+            if i[1] == 'other':
+                print(data)
+                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+                                             name='%s' %i[0],
+                                             on_enter=RunScriptAction('/home/daniel/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py \"%s\"' %data, None)))
             else:
-                items = []
-                for i in results:
-                    items.append(ExtensionResultItem(icon='images/gnome.png',
-                                                     name='%s' %i[0],
-                                                     description="%s" %i[1],                                              
-                                                     on_enter=RunScriptAction("~/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/ulaction '%s'" %i[1].replace("%20"," "), None)))       
-
-
+                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+                                             name='%s' %i[0],
+                                             on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
         return RenderResultListAction(items)
 
 if __name__ == '__main__':
