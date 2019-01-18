@@ -7,6 +7,7 @@ from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
 from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
+from ulauncher.api.shared.action.RenderAppchooserAction import RenderAppchooserAction
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 from ulauncher.api.shared.action.OpenWithAction import OpenWithAction
@@ -107,14 +108,15 @@ class ItemEnterEventListener(EventListener):
         items = []
         for i in options:
             if i[1] == 'other':
-                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
-                                             name='%s' %i[0],
-                                             on_enter=OpenWithAction(data)))
+                RenderAppchooserAction('application/pdf')
+#                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+#                                             name='%s' %i[0],
+#                                             on_enter=OpenWithAction(data)))
             else:
                 items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
                                              name='%s' %i[0],
                                              on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
-        return RenderResultListAction(items)
+            return RenderResultListAction(items)
 
 if __name__ == '__main__':
     GnomeTrackerExtension().run()
