@@ -12,9 +12,9 @@ from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAct
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 from ulauncher.api.shared.action.OpenWithAction import OpenWithAction
 
-import appchooser
+#import appchooser
 
-yad_path = distutils.spawn.find_executable('yad')
+#yad_path = distutils.spawn.find_executable('yad')
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
@@ -103,20 +103,19 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
-        options = [['Launch with default application', 'xdg-open','detective_penguin'], ['Launch with other application', 'other','filebrowser'], ['File browser', 'nautilus', 'filebrowser'], ['Text editor', 'gedit', 'texteditor']] 
+        options = [['Open with default application', 'xdg-open','detective_penguin'], ['Open with other application', 'other','applications-other'], ['Open with file browser', 'nautilus', 'filebrowser'], ['Open with text editor', 'gedit', 'texteditor']] 
         data = event.get_data()
         items = []
         for i in options:
             if i[1] == 'other':
-                RenderAppchooserAction('application/pdf')
-#                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
-#                                             name='%s' %i[0],
-#                                             on_enter=OpenWithAction(data)))
+                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+                                                 name='%s' %i[0],
+                                                 on_enter=RenderAppchooserAction(data)))
             else:
                 items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
-                                             name='%s' %i[0],
-                                             on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
-            return RenderResultListAction(items)
+                                                 name='%s' %i[0],
+                                                 on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
+        return RenderResultListAction(items)
 
 if __name__ == '__main__':
     GnomeTrackerExtension().run()
