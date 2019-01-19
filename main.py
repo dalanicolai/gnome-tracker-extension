@@ -11,7 +11,8 @@ from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAct
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 #from ulauncher.api.shared.action.OpenWithAction import OpenWithAction
 
-# import appchooser
+home = os.getenv("HOME")
+os.chmod(home+'/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py', 0755) 
 
 yad_path = distutils.spawn.find_executable('yad')
 
@@ -37,7 +38,6 @@ class KeywordQueryEventListener(EventListener):
         query_words = event.get_argument()
         if query_words == None:
             query_words = ""
-        home = os.getenv("HOME")
 
         if keyword == 'df':
             print('wat is dit', event.get_keyword())
@@ -102,7 +102,7 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
-        options = [['Launch with default application', 'xdg-open','detective_penguin'], ['Launch with other application', 'other','filebrowser'], ['File browser', 'nautilus', 'filebrowser'], ['Text editor', 'gedit', 'texteditor']] 
+        options = [['Open with default application', 'xdg-open','detective_penguin'], ['Open with other application', 'other', 'other'], ['Open with file browser', 'nautilus', 'filebrowser'], ['Open with text editor', 'gedit', 'texteditor']] 
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
@@ -110,10 +110,12 @@ class ItemEnterEventListener(EventListener):
                 print(data)
                 items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
                                              name='%s' %i[0],
+                                             description="%s" % data,
                                              on_enter=RunScriptAction('/home/daniel/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py \"%s\"' %data, None)))
             else:
                 items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
                                              name='%s' %i[0],
+                                             description="%s" % data,
                                              on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
         return RenderResultListAction(items)
 
