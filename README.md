@@ -5,7 +5,7 @@ Ulauncher extension for deep search filesystem via the gnome tracker/docfetcher/
 
 This extension provides filesystem deep search functionality (i.e. full text search) via gnome tracker or docfetcher (respective keywords: gt and df) and near instant full system file search via the locate command (keyword: lc + 2x g for grep -i (see image)). Additionally it has an option to deep search files using the tracker search command which returns text snippets (keyword: ts). The output can be opened with your prefered application.
 
-![Locate with grep](https://prod-ulauncher-ext-images.s3.amazonaws.com/github|18429791/2019-01-17T02:58:42.944992.png)
+![screenshot from 2019-01-17 03-46-41](https://user-images.githubusercontent.com/18429791/51434764-aa3fdf80-1c68-11e9-89c7-6d147f514fd9.png)
 
 ## Installation
 
