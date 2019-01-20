@@ -10,11 +10,7 @@ from ulauncher.api.shared.action.RenderResultListAction import RenderResultListA
 from ulauncher.api.shared.action.RenderAppchooserAction import RenderAppchooserAction
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
-from ulauncher.api.shared.action.OpenWithAction import OpenWithAction
 
-#import appchooser
-
-#yad_path = distutils.spawn.find_executable('yad')
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
