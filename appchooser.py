@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # This script takes one filename as argument and opens a openwith gtk window 
 
 import sys
