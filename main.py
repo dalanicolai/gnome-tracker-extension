@@ -102,18 +102,18 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
-        options = [['Open with default application', 'xdg-open','detective_penguin'], ['Open with other application', 'other', 'other'], ['Open with file browser', 'nautilus', 'filebrowser'], ['Open with text editor', 'gedit', 'texteditor']] 
+	appchooser_path = '/home/daniel/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py'
+        options = [['Open with default application', 'xdg-open','detective_penguin'],
+                   ['Open with other application', appchooser_path, 'other'],
+                   ['Open with file browser', 'nautilus', 'filebrowser'],
+                   ['Open with text editor', 'gedit', 'texteditor'],
+                   ['Open location in terminal', 'gnome-terminal  --working-directory', 'terminal']]
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
-            if i[1] == 'other':
-                print(data)
-                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
-                                             name='%s' %i[0],
-                                             description="%s" % data,
-                                             on_enter=RunScriptAction('/home/daniel/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py \"%s\"' %data, None)))
-            else:
-                items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+            if i[2] == 'terminal':
+                data = os.path.dirname(os.path.abspath(data))
+            items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
                                              name='%s' %i[0],
                                              description="%s" % data,
                                              on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
