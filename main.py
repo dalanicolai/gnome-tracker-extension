@@ -9,12 +9,9 @@ from ulauncher.api.shared.item.ExtensionResultItem import ExtensionResultItem
 from ulauncher.api.shared.action.RenderResultListAction import RenderResultListAction
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
-#from ulauncher.api.shared.action.OpenWithAction import OpenWithAction
 
 home = os.getenv("HOME")
 os.chmod(home+'/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py', 0755) 
-
-yad_path = distutils.spawn.find_executable('yad')
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
@@ -40,7 +37,6 @@ class KeywordQueryEventListener(EventListener):
             query_words = ""
 
         if keyword == 'df':
-            print('wat is dit', event.get_keyword())
             from search import search
             out = search(query_words,28834)
             output = [[doc.getFilename(),doc.getPathStr(),doc.getLastModifiedStr()] for doc in out]
@@ -102,7 +98,7 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
-	appchooser_path = '/home/daniel/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py'
+	appchooser_path = home + '/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py'
         options = [['Open with default application', 'xdg-open','detective_penguin'],
                    ['Open with other application', appchooser_path, 'other'],
                    ['Open with file browser', 'nautilus', 'filebrowser'],
