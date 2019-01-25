@@ -2,6 +2,10 @@ import subprocess
 import os
 import distutils.spawn
 
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+
 from ulauncher.api.client.Extension import Extension
 from ulauncher.api.client.EventListener import EventListener
 from ulauncher.api.shared.event import KeywordQueryEvent, ItemEnterEvent
@@ -13,10 +17,26 @@ from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 home = os.getenv("HOME")
 os.chmod(home+'/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py', 0755) 
 
+
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in xrange(0, len(l), n):
         yield l[i:i + n]
+
+def icon_path(*args):
+    for arg in args:
+        for size in [48]:
+            icon = icon_theme.choose_icon([arg], size, 0)
+            if icon is not None:
+                return icon.get_filename()
+
+
+icon_theme = Gtk.IconTheme.get_default()
+
+file_browser_icon = icon_path('org.gnome.NautilusGtk4', 'org.gnome.Nautilus')
+other_application_icon = icon_path('applications-other')
+text_editor_icon = icon_path('accessories-text-editor')
+terminal_icon = icon_path('terminal')
 
 
 class GnomeTrackerExtension(Extension):
@@ -99,17 +119,17 @@ class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
 	appchooser_path = home + '/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py'
-        options = [['Open with default application', 'xdg-open','detective_penguin'],
-                   ['Open with other application', appchooser_path, 'other'],
-                   ['Open with file browser', 'nautilus', 'filebrowser'],
-                   ['Open with text editor', 'gedit', 'texteditor'],
-                   ['Open location in terminal', 'gnome-terminal  --working-directory', 'terminal']]
+        options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
+                   ['Open with other application', appchooser_path, other_application_icon],
+                   ['Open with file browser', 'nautilus', file_browser_icon],
+                   ['Open with text editor', 'gedit', text_editor_icon],
+                   ['Open location in terminal', 'gnome-terminal --working-directory', terminal_icon]]
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
             if i[2] == 'terminal':
                 data = os.path.dirname(os.path.abspath(data))
-            items.append(ExtensionResultItem(icon='images/'+i[2]+'.png',
+            items.append(ExtensionResultItem(icon=i[2],
                                              name='%s' %i[0],
                                              description="%s" % data,
                                              on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
