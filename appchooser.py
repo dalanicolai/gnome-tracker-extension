@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # This script takes one filename as argument and opens a openwith gtk window 
 
+
 import sys
+import os
 import subprocess
 import mimetypes
 
@@ -9,6 +11,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
+home = os.getenv("HOME")
 
 class myWindow(Gtk.Window):
     def __init__(self):
