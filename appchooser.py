@@ -11,12 +11,12 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 
-home = os.getenv("HOME")
+#home = os.getenv("HOME")
 
 class myWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="Open with")
-        self.set_icon_from_file(home + '/.local/share/icons/hicolor/scalable/apps/ulauncher.svg')
+        self.set_icon_from_file('/usr/share/icons/hicolor/scalable/apps/ulauncher.svg')
         
         self.connect("key-press-event", self.on_key_press)
     
