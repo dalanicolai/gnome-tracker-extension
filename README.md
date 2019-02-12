@@ -14,6 +14,10 @@ This extension provides filesystem deep search functionality (i.e. full text sea
 
 ![screenshot from 2019-01-17 03-46-41](https://user-images.githubusercontent.com/18429791/51434764-aa3fdf80-1c68-11e9-89c7-6d147f514fd9.png)
 
+## Usage
+
+Type keyword followed by a search term. tracker (gt and ts) and docfetcher (df) by default search case-insensitive for matches with full words. However both allow to use wildcards at the and of a search term.
+
 ## Installation
 
 Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension  
