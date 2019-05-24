@@ -16,7 +16,7 @@ This extension provides filesystem deep search functionality (i.e. full text sea
 
 ## Usage
 
-Type keyword followed by a search term. tracker (gt and ts) and docfetcher (df) by default search case-insensitive for matches with full words. However both allow to use wildcards at the and of a search term.
+Type keyword followed by a search term. tracker (gt and ts) and docfetcher (df) by default search case-insensitive for matches with full words. However both allow to use wildcards (use symbol * ) at the and of a search term.
 
 ## Installation
 
