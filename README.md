@@ -20,7 +20,11 @@ Type keyword followed by a search term. tracker (gt and ts) and docfetcher (df) 
 
 ## Installation
 
-Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension  
+Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension
+
+## Short note on development
+
+The py4j folder and the search.py file are part of docfetcher. They are required to use its search functionality from python. The appchooser.py is a small script that launches a gtk application chooser window. 
 
 ### Contact
 
