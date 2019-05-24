@@ -10,7 +10,7 @@ A working daemon and index can be tested in the terminal using the 'tracker sear
 
 ## Description
 
-This extension provides filesystem deep search functionality (i.e. full text search) via gnome tracker or docfetcher (respective keywords: gt and df) and near instant full system file search via the locate command (keyword: lc + 2x g for grep -i (see image)). Additionally it has an option to deep search files using the tracker search command which returns text snippets (keyword: ts). The output can be opened with your prefered application.
+This extension provides filesystem deep search functionality (i.e. full text search) via gnome tracker or docfetcher (respective keywords: gt and df) and near instant full system file search via the locate command (keyword: lc + 2x g for grep -i (see image)). Searching with gnome tracker by default searches on exact match, so optionally each pattern in the query can be appended with * as a wildcard (unfortunately I do not know how to use a wildcard in front of a SPARQL query). Additionally this extension has an option to deep search files using the tracker search command which returns text snippets (keyword: ts, also supports appending with * as wilcard). The output can be opened with your prefered application.
 
 ![screenshot from 2019-01-17 03-46-41](https://user-images.githubusercontent.com/18429791/51434764-aa3fdf80-1c68-11e9-89c7-6d147f514fd9.png)
 
