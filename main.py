@@ -14,8 +14,9 @@ from ulauncher.api.shared.action.RenderResultListAction import RenderResultListA
 from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAction
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 
-home = os.path.dirname(os.path.abspath(__file__))
-os.chmod(home + '/appchooser.py', 0755) 
+home = os.getenv("HOME")
+appPath = os.path.dirname(os.path.abspath(__file__))
+os.chmod(appPath + '/appchooser.py', 0755) 
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
@@ -118,7 +119,7 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
-        appchooser_path = home + '/appchooser.py'
+        appchooser_path = appPath + '/appchooser.py'
         options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
                    ['Open with other application', appchooser_path, other_application_icon],
                    ['Open with file browser', 'nautilus', file_browser_icon],
