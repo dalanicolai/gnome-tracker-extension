@@ -52,7 +52,6 @@ class KeywordQueryEventListener(EventListener):
         
         keyword = event.get_keyword()
         preferences = extension.preferences
-        print(preferences)
         query_words = event.get_argument()
         if query_words == None:
             query_words = ""
