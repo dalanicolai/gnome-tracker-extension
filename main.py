@@ -49,7 +49,7 @@ class GnomeTrackerExtension(Extension):
 class KeywordQueryEventListener(EventListener):
 
     def on_event(self, event, extension):
-		
+        
         keyword = event.get_keyword()
         preferences = extension.preferences
         print(preferences)
@@ -119,7 +119,7 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
-	appchooser_path = home + '/appchooser.py'
+        appchooser_path = home + '/appchooser.py'
         options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
                    ['Open with other application', appchooser_path, other_application_icon],
                    ['Open with file browser', 'nautilus', file_browser_icon],
