@@ -36,6 +36,20 @@
       "name": "locate",
       "description": "Instantly find files using locate command",
       "default_value": "lc"
+    },
+    {
+      "id": "filebrowser",
+      "type": "input",
+      "name": "Default File Browser",
+      "description": "default is 'nautilus', but you can change this to use a different file manager you have installed.",
+      "default_value": "nautilus"
+    },
+    {
+      "id": "texteditor",
+      "type": "input",
+      "name": "Default Text Editor",
+      "description": "Default is 'gedit', but you can change this to point to any other text editor you have installed",
+      "default_value": "gedit"
     }
   ]
 }

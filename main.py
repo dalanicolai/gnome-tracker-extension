@@ -122,8 +122,8 @@ class ItemEnterEventListener(EventListener):
         appchooser_path = appPath + '/appchooser.py'
         options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
                    ['Open with other application', appchooser_path, other_application_icon],
-                   ['Open with file browser', 'nautilus', file_browser_icon],
-                   ['Open with text editor', 'gedit', text_editor_icon],
+                   ['Open with file browser', extension.preferences["filebrowser"], file_browser_icon],
+                   ['Open with text editor', extension.preferences["texteditor"], text_editor_icon],
                    ['Open location in terminal', 'gnome-terminal --working-directory', terminal_icon]]
         data = event.get_data().replace("%20"," ")
         items = []
