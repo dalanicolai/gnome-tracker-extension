@@ -128,7 +128,7 @@ class ItemEnterEventListener(EventListener):
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
-            if i[2] == 'gnome-terminal':
+            if i[2] == 'terminal':
                 data = os.path.dirname(os.path.abspath(data))
             items.append(ExtensionResultItem(icon=i[2],
                                              name='%s' %i[0],
