@@ -15,8 +15,8 @@ from ulauncher.api.shared.action.ExtensionCustomAction import ExtensionCustomAct
 from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 
 home = os.getenv("HOME")
-os.chmod(home+'/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py', 0755) 
-
+appPath = os.path.dirname(os.path.abspath(__file__))
+os.chmod(appPath + '/appchooser.py', 0755) 
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
@@ -50,13 +50,14 @@ class GnomeTrackerExtension(Extension):
 class KeywordQueryEventListener(EventListener):
 
     def on_event(self, event, extension):
-		
+        
         keyword = event.get_keyword()
+        preferences = extension.preferences
         query_words = event.get_argument()
         if query_words == None:
             query_words = ""
 
-        if keyword == 'df':
+        if keyword == preferences["df_kw"]:
             from search import search
             out = search(query_words,28834)
             output = [[doc.getFilename(),doc.getPathStr(),doc.getLastModifiedStr()] for doc in out]
@@ -71,13 +72,13 @@ class KeywordQueryEventListener(EventListener):
                                                  on_enter=ExtensionCustomAction(data, keep_app_open=True)))     
         
         else:
-            if keyword == 'gt':
+            if keyword == preferences["gt_kw"]:
                 command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
                 output = subprocess.check_output(command)          
                 pre_results = [i.split(', ') for i in output.splitlines()][::-1][1:-1][:20]
                 results = [[pre_results[i][0][2:],pre_results[i][1][7:]] for i in range(len(pre_results))]
 
-            elif keyword == 'ts':
+            elif keyword == preferences["ts_kw"]:
                 import re
 
                 out1 = subprocess.check_output(['tracker','search',query_words])
@@ -87,7 +88,7 @@ class KeywordQueryEventListener(EventListener):
                 print(pre_results)
                 results = [[pre_results[i][1],pre_results[i][0][7:]] for i in range(len(pre_results))]
 
-            elif keyword == 'lc':
+            elif keyword == preferences["lc_kw"]:
                 words = query_words.split(' ')
                 if len(words) == 1:
                     output = subprocess.check_output(['locate','-l','11', query_words])
@@ -118,7 +119,7 @@ class KeywordQueryEventListener(EventListener):
 class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
-	appchooser_path = home + '/.cache/ulauncher_cache/extensions/com.github.dalanicolai.gnome-tracker-extension/appchooser.py'
+        appchooser_path = appPath + '/appchooser.py'
         options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
                    ['Open with other application', appchooser_path, other_application_icon],
                    ['Open with file browser', 'nautilus', file_browser_icon],
