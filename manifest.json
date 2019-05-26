@@ -50,7 +50,16 @@
       "name": "Default Text Editor",
       "description": "Default is 'gedit', but you can change this to point to any other text editor you have installed",
       "default_value": "gedit"
+    },
+    {
+      "id": "autowildcardsearch",
+      "type": "select",
+      "name": "Search Tracker and Locate with wildcards by default",
+      "description": "Automatically convert spaces to wildcards in tracker and locate (warning, may produce more matches)",
+      "default_value": "No",
+      "options": ["No", "Yes"]
     }
+    
   ]
 }
 

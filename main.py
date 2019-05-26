@@ -73,6 +73,11 @@ class KeywordQueryEventListener(EventListener):
         
         else:
             if keyword == preferences["gt_kw"]:
+                if preferences["autowildcardsearch"] == 'Yes':
+                    if " " in query_words: 
+                        query_words = "*".join(query_words.split(' ')) + "*"
+                    else:
+                        query_words = query_words + "*"
                 command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
                 output = subprocess.check_output(command)          
                 pre_results = [i.split(', ') for i in output.splitlines()][::-1][1:-1][:20]
@@ -94,18 +99,25 @@ class KeywordQueryEventListener(EventListener):
                     output = subprocess.check_output(['locate','-l','11', query_words])
                     pre_results = output.splitlines() 
                     results = [[os.path.basename(i),i] for i in pre_results]
-                elif len(words) == 3 and words[1] == 'g':
-                    loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
-                    output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout)
+                elif preferences["autowildcardsearch"] == 'No':                
+                    if len(words) == 3 and words[1] == 'g':
+                        loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
+                        output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout)
+                        pre_results = output.splitlines() 
+                        results = [[os.path.basename(i),i] for i in pre_results]
+                    elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
+                        loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
+                        grep1 = subprocess.Popen(('grep', words[2]),stdin=loc.stdout, stdout=subprocess.PIPE)
+                        output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout)
+                        print(output)
+                        pre_results = output.splitlines() 
+                        results = [[os.path.basename(i),i] for i in pre_results]
+                # Do auto wildcard search if enabled in preferences
+                else:
+                    output = subprocess.check_output(['locate','-i','-l','11','--regexp', ".*".join(words)])
                     pre_results = output.splitlines() 
                     results = [[os.path.basename(i),i] for i in pre_results]
-                elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
-                    loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
-                    grep1 = subprocess.Popen(('grep', words[2]),stdin=loc.stdout, stdout=subprocess.PIPE)
-                    output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout)
-                    print(output)
-                    pre_results = output.splitlines() 
-                    results = [[os.path.basename(i),i] for i in pre_results]
+
 
             items = []
             for i in results:
@@ -120,15 +132,16 @@ class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
         appchooser_path = appPath + '/appchooser.py'
+        terminal = 'gnome-terminal --working-directory'
         options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
                    ['Open with other application', appchooser_path, other_application_icon],
                    ['Open with file browser', extension.preferences["filebrowser"], file_browser_icon],
                    ['Open with text editor', extension.preferences["texteditor"], text_editor_icon],
-                   ['Open location in terminal', 'gnome-terminal --working-directory', terminal_icon]]
+                   ['Open location in terminal', terminal, terminal_icon]]
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
-            if i[2] == 'gnome-terminal':
+            if i[1] == terminal:
                 data = os.path.dirname(os.path.abspath(data))
             items.append(ExtensionResultItem(icon=i[2],
                                              name='%s' %i[0],
