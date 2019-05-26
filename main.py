@@ -36,7 +36,7 @@ icon_theme = Gtk.IconTheme.get_default()
 file_browser_icon = icon_path('org.gnome.NautilusGtk4', 'org.gnome.Nautilus')
 other_application_icon = icon_path('applications-other')
 text_editor_icon = icon_path('accessories-text-editor')
-terminal_icon = icon_path('terminal')
+terminal_icon = icon_path('org.gnome.Terminal', 'terminal')
 
 
 class GnomeTrackerExtension(Extension):
