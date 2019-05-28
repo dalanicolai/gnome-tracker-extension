@@ -16,11 +16,11 @@ from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 
 home = os.getenv("HOME")
 appPath = os.path.dirname(os.path.abspath(__file__))
-os.chmod(appPath + '/appchooser.py', 0755) 
+os.chmod(appPath + '/appchooser.py', 0o755) 
 
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
-    for i in xrange(0, len(l), n):
+    for i in range(0, len(l), n):
         yield l[i:i + n]
 
 def icon_path(*args):
@@ -79,14 +79,14 @@ class KeywordQueryEventListener(EventListener):
                     else:
                         query_words = query_words + "*"
                 command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
-                output = subprocess.check_output(command)          
+                output = subprocess.check_output(command, encoding='UTF-8')
                 pre_results = [i.split(', ') for i in output.splitlines()][::-1][1:-1][:20]
                 results = [[pre_results[i][0][2:],pre_results[i][1][7:]] for i in range(len(pre_results))]
 
             elif keyword == preferences["ts_kw"]:
                 import re
 
-                out1 = subprocess.check_output(['tracker','search',query_words])
+                out1 = subprocess.check_output(['tracker','search',query_words], encoding='UTF-8')
                 out2 = [i for i in out1.splitlines()]
                 out3 = [re.sub('\x1b[^m]*m', '', i).strip() for i in out2[1:]]
                 pre_results = list(chunks(out3,3))[:-1]
@@ -96,25 +96,25 @@ class KeywordQueryEventListener(EventListener):
             elif keyword == preferences["lc_kw"]:
                 words = query_words.split(' ')
                 if len(words) == 1:
-                    output = subprocess.check_output(['locate','-l','11', query_words])
+                    output = subprocess.check_output(['locate','-l','11', query_words], encoding='UTF-8')
                     pre_results = output.splitlines() 
                     results = [[os.path.basename(i),i] for i in pre_results]
                 elif preferences["autowildcardsearch"] == 'No':                
                     if len(words) == 3 and words[1] == 'g':
                         loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
-                        output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout)
+                        output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout, encoding='UTF-8')
                         pre_results = output.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                     elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
                         loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
                         grep1 = subprocess.Popen(('grep', words[2]),stdin=loc.stdout, stdout=subprocess.PIPE)
-                        output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout)
+                        output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout, encoding='UTF-8')
                         print(output)
                         pre_results = output.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                 # Do auto wildcard search if enabled in preferences
                 else:
-                    output = subprocess.check_output(['locate','-i','-l','11', "*" + "*".join(words) + "*"])
+                    output = subprocess.check_output(['locate','-i','-l','11', "*" + "*".join(words) + "*"], encoding='UTF-8')
                     pre_results = output.splitlines() 
                     results = [[os.path.basename(i),i] for i in pre_results]
 
