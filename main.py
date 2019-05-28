@@ -79,7 +79,8 @@ class KeywordQueryEventListener(EventListener):
 					else:
 						query_words = query_words + "*"
 				command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
-				output = subprocess.check_output(command)          
+				output = subprocess.check_output(command)
+				print(output)
 				pre_results = [i.split(', ') for i in output.splitlines()][::-1][1:-1][:20]
 				results = [[pre_results[i][0][2:],pre_results[i][1][7:]] for i in range(len(pre_results))]
 
