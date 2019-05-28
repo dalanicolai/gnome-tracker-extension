@@ -1,64 +1,64 @@
 {
-	"required_api_version": "^2.0.0",
-	"name": "Gnome tracker",
-	"description": "Deep search files using gnome tracker",
-	"developer_name": "Daniel Nicolai  !!! CHECK README FILE TO ENABLE FULL FUNCTIONALITY, e.g. open with !!!",
-	"icon": "images/detective_penguin.png",
-	"options": {
-		"query_debounce": 0.1
-	},
-	"preferences": [
-		{
-			"id": "gt_kw",
-			"type": "keyword",
-			"name": "Gnome tracker",
-			"description": "Deep search files using gnome tracker",
-			"default_value": "gt"
-		},
-		{
-			"id": "ts_kw",
-			"type": "keyword",
-			"name": "Tracker search",
-			"description": "Deep search files using tracker search",
-			"default_value": "ts"
-		},
-		{
-			"id": "df_kw",
-			"type": "keyword",
-			"name": "DocFetcher",
-			"description": "Deep search files using DocFetcher",
-			"default_value": "df"
-		},
-		{
-			"id": "lc_kw",
-			"type": "keyword",
-			"name": "locate",
-			"description": "Instantly find files using locate command",
-			"default_value": "lc"
-		},
-		{
-			"id": "filebrowser",
-			"type": "input",
-			"name": "Default File Browser",
-			"description": "default is 'nautilus', but you can change this to use a different file manager you have installed.",
-			"default_value": "nautilus"
-		},
-		{
-			"id": "texteditor",
-			"type": "input",
-			"name": "Default Text Editor",
-			"description": "Default is 'gedit', but you can change this to point to any other text editor you have installed",
-			"default_value": "gedit"
-		},
-		{
-			"id": "autowildcardsearch",
-			"type": "select",
-			"name": "Search Tracker and Locate with wildcards by default",
-			"description": "Automatically convert spaces to wildcards in tracker and locate (warning, may produce more matches)",
-			"default_value": "No",
-			"options": ["No", "Yes"]
-		}
-		
-	]
+  "required_api_version": "^2.0.0",
+  "name": "Gnome tracker",
+  "description": "Deep search files using gnome tracker",
+  "developer_name": "Daniel Nicolai  !!! CHECK README FILE TO ENABLE FULL FUNCTIONALITY, e.g. open with !!!",
+  "icon": "images/detective_penguin.png",
+  "options": {
+    "query_debounce": 0.1
+  },
+  "preferences": [
+    {
+      "id": "gt_kw",
+      "type": "keyword",
+      "name": "Gnome tracker",
+      "description": "Deep search files using gnome tracker",
+      "default_value": "gt"
+    },
+    {
+      "id": "ts_kw",
+      "type": "keyword",
+      "name": "Tracker search",
+      "description": "Deep search files using tracker search",
+      "default_value": "ts"
+    },
+    {
+      "id": "df_kw",
+      "type": "keyword",
+      "name": "DocFetcher",
+      "description": "Deep search files using DocFetcher",
+      "default_value": "df"
+    },
+    {
+      "id": "lc_kw",
+      "type": "keyword",
+      "name": "locate",
+      "description": "Instantly find files using locate command",
+      "default_value": "lc"
+    },
+    {
+      "id": "filebrowser",
+      "type": "input",
+      "name": "Default File Browser",
+      "description": "default is 'nautilus', but you can change this to use a different file manager you have installed.",
+      "default_value": "nautilus"
+    },
+    {
+      "id": "texteditor",
+      "type": "input",
+      "name": "Default Text Editor",
+      "description": "Default is 'gedit', but you can change this to point to any other text editor you have installed",
+      "default_value": "gedit"
+    },
+    {
+      "id": "autowildcardsearch",
+      "type": "select",
+      "name": "Search Tracker and Locate with wildcards by default",
+      "description": "Automatically convert spaces to wildcards in tracker and locate (warning, may produce more matches)",
+      "default_value": "No",
+      "options": ["No", "Yes"]
+    }
+    
+  ]
 }
 
