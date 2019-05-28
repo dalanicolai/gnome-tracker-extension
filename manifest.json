@@ -1,8 +1,7 @@
 {
-  "name": "Gnome tracker",
   "manifest_version": "2",
-  "name": "Gnome tracker",
   "api_version": "1",
+  "name": "Gnome tracker",
   "description": "Deep search files using gnome tracker",
   "developer_name": "Daniel Nicolai  !!! CHECK README FILE TO ENABLE FULL FUNCTIONALITY, e.g. open with !!!",
   "icon": "images/detective_penguin.png",
