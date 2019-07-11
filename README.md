@@ -1,22 +1,23 @@
-# Tracker/docfetcher/locate deep file search
+# Tracker/recoll/docfetcher/locate deep file search
 Ulauncher extension for deep search filesystem via the gnome tracker/docfetcher/locate index.
 
 ## Requirements
 
 A running gnome-tracker daemon + tracker index (for gt and ts keywords)
+A recoll index and the recoll python api (for the rc keyword)
 A docfetcher daemon and index (for the df keyword)
 
-A working daemon and index can be tested in the terminal using the 'tracker search' command (gt and ts) or with the docfetcher gui (df)  
+A working daemon and index can be tested respectively in the terminal using the 'tracker search' command (gt and ts), with the recoll gui (rc) or with the docfetcher gui (df)  
 
 ## Description
 
-This extension provides filesystem deep search functionality (i.e. full text search) via gnome tracker or docfetcher (respective keywords: gt and df) and near instant full system file search via the locate command (keyword: lc + 2x g for grep -i (see image)). Searching with gnome tracker by default searches on exact match, so optionally each pattern in the query can be appended with * as a wildcard (unfortunately I do not know how to use a wildcard in front of a SPARQL query). Additionally this extension has an option to deep search files using the tracker search command which returns text snippets (keyword: ts, also supports appending with * as wilcard). The output can be opened with your prefered application.
+This extension provides filesystem deep search functionality (i.e. full text search) via gnome tracker, recoll or docfetcher (respective keywords: gt, rc and df) and near instant full system file search via the locate command (keyword: lc + 2x g for grep -i (see image)). Searching with gnome tracker by default searches on exact match, so optionally each pattern in the query can be appended with * as a wildcard (unfortunately I do not know how to use a wildcard in front of a SPARQL query). Additionally this extension has an option to deep search files using the tracker search command which returns text snippets (keyword: ts, also supports appending with * as wilcard). The output can be opened with your prefered application.
 
 ![screenshot from 2019-01-17 03-46-41](https://user-images.githubusercontent.com/18429791/51434764-aa3fdf80-1c68-11e9-89c7-6d147f514fd9.png)
 
 ## Usage
 
-Type keyword followed by a search term. tracker (gt and ts) and docfetcher (df) by default search case-insensitive for matches with full words. However both allow to use wildcards (use symbol * ) at the and of a search term.
+Type keyword followed by a search term. tracker (gt and ts), recoll (rc) and docfetcher (df) by default search case-insensitive for matches with full words. However all allow to use wildcards (use symbol * ) at the and of a search term.
 
 ## Installation
 
