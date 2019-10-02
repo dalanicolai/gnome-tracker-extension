@@ -16,6 +16,13 @@
       "default_value": "gt"
     },
     {
+      "id": "rc_kw",
+      "type": "keyword",
+      "name": "Recoll search",
+      "description": "Deep search files using recoll",
+      "default_value": "rc"
+    },
+    {
       "id": "ts_kw",
       "type": "keyword",
       "name": "Tracker search",
