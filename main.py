@@ -56,7 +56,28 @@ class KeywordQueryEventListener(EventListener):
         query_words = event.get_argument()
         if query_words == None:
             query_words = ""
-
+            
+        if keyword == preferences["rc_kw"]:
+            from recoll import recoll
+            db = recoll.connect()
+            query = db.query()
+            nres = query.execute(query_words)
+            doc = query.fetchone()
+            ress = query.fetchmany(20)
+            results = [[doc.title, doc.url] for doc in ress]
+            #results = sorted(output, key=lambda entry: entry[2])[::-1]
+            print(results)
+            
+            items = []
+            for i in results:
+                data = '%s' %i[1]
+                items.append(ExtensionResultItem(icon='images/docfetcher.png',
+                                                 name='%s' %i[0],
+                                                 description="%s" %i[1],
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))  
+            
+            
+            
         if keyword == preferences["df_kw"]:
             from search import search
             out = search(query_words,28834)
