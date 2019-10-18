@@ -1,6 +1,5 @@
 {
-  "manifest_version": "2",
-  "api_version": "1",
+  "required_api_version": "^2.0.0",
   "name": "Gnome tracker",
   "description": "Deep search files using gnome tracker",
   "developer_name": "Daniel Nicolai  !!! CHECK README FILE TO ENABLE FULL FUNCTIONALITY, e.g. open with !!!",
@@ -9,6 +8,20 @@
     "query_debounce": 0.1
   },
   "preferences": [
+    {
+      "id": "cb_kw",
+      "type": "keyword",
+      "name": "Calibre",
+      "description": "Query calibre database",
+      "default_value": "cb"
+    },
+    {
+      "id": "cb_lib_path",
+      "type": "input",
+      "name": "Calibre library folder",
+      "description": "Use onlu when calibre folder path other than default",
+      "default_value": "default"
+    },
     {
       "id": "gt_kw",
       "type": "keyword",
@@ -23,7 +36,7 @@
       "description": "Deep search files using recoll",
       "default_value": "rc"
     },
-    {
+{
       "id": "ts_kw",
       "type": "keyword",
       "name": "Tracker search",
