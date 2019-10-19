@@ -1,6 +1,8 @@
 # Tracker/recoll/docfetcher/locate/ deep file search + calibre database search
 Ulauncher extension for deep search filesystem and calibre database via the gnome tracker / docfetcher / locate index and calibre database file, handle the results in multiple ways (e.g. opening in default application).
 
+#### If you like this extension then consider to star it on github so people can find it more easily (by sorting on github stars on the ulauncher extension page)  
+
 ## Requirements
 
 A running gnome-tracker daemon + tracker index (for gt and ts keywords)
@@ -21,7 +23,7 @@ This extension provides filesystem deep search functionality (i.e. full text sea
 
 Type keyword followed by a search term. Tracker (default: gt and ts), recoll (default: rc) and docfetcher (default: df) by default search case-insensitive for matches with full words. However all allow to use wildcards (use symbol * ) at the and of a search term. The locate keyword can be extended twice with a grep using g keyword (see image). 
 
-The calibre keyword (default: cb) searches in the title and author_sort (**can be different form te author field,** see book's metadata) fields and can handle two query patterns separated by a space (e.g. "cb hello dan") and the search is case insensitive and includes wildcards before and after the patterns.
+The calibre keyword (default: cb) searches in the title and author_sort (**can be different from te author field,** see book's metadata) fields and can handle two query patterns separated by a space (e.g. "cb hello dan") and the search is case insensitive and includes wildcards before and after the patterns.
 
 
 ## Installation
@@ -31,6 +33,8 @@ Add the plugin via the extension menu in the ulauncher settings using the URL: h
 ## Short note on development
 
 The py4j folder and the search.py file are part of docfetcher. They are required to use its search functionality from python. The appchooser.py is a small script that launches a gtk application chooser window. 
+
+This extension might be useful to use as a template for other seach extensions. Also, if you know some python, its (search) behavior can be easily adapted to you own preferences by adapting the code in main.py.
 
 ### Contact
 
