@@ -38,4 +38,4 @@ This extension might be useful to use as a template for other seach extensions. 
 
 ### Contact
 
-If you have any requests or comments relating to this extension than email me on dalanicolai@gmail.com
+If you have any requests or comments relating to this extension than email me on dalanicolai@gmail.com, or just open an issue here on github.
