@@ -199,16 +199,15 @@ class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
         appchooser_path = appPath + '/appchooser.py'
-        terminal = 'gnome-terminal --working-directory'
         options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
                    ['Open with other application', appchooser_path, other_application_icon],
                    ['Open with file browser', extension.preferences["filebrowser"], file_browser_icon],
                    ['Open with text editor', extension.preferences["texteditor"], text_editor_icon],
-                   ['Open location in terminal', terminal, terminal_icon]]
+                   ['Open location in {}'.format(extension.preferences["terminal"]), extension.preferences["terminal"], terminal_icon]]
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
-            if i[1] == terminal:
+            if i[1] == extension.preferences["terminal"]:
                 data = os.path.dirname(os.path.abspath(data))
             items.append(ExtensionResultItem(icon=i[2],
                                              name='%s' %i[0],
