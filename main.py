@@ -115,7 +115,7 @@ class KeywordQueryEventListener(EventListener):
             items = []
             for i in results:
                 data = '%s' %i[1]
-                items.append(ExtensionResultItem(icon='images/docfetcher.png',
+                items.append(ExtensionResultItem(icon='images/recoll.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
                                                  on_enter=ExtensionCustomAction(data, keep_app_open=True)))  
