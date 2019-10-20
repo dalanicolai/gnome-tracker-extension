@@ -23,7 +23,7 @@ This extension provides filesystem deep search functionality (i.e. full text sea
 
 Type keyword followed by a search term. Tracker (default: gt and ts), recoll (default: rc) and docfetcher (default: df) by default search case-insensitive for matches with full words. However all allow to use wildcards (use symbol * ) at the and of a search term. The locate keyword can be extended twice with a grep using g keyword (see image). 
 
-The calibre keyword (default: cb) searches in the title and author_sort (**can be different from te author field,** see book's metadata) fields and can handle two query patterns separated by a space (e.g. "cb hello dan") and the search is case insensitive and includes wildcards before and after the patterns.
+The calibre keyword (default: cb) searches in the title and author_sort (**can be different from te author field,** see book's metadata) fields and can handle two query patterns separated by a space (e.g. "cb hello dan") where the search is case insensitive and includes wildcards before and after the patterns.
 
 
 ## Installation
