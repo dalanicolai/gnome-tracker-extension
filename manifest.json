@@ -44,7 +44,7 @@
       "description": "Deep search files using recoll",
       "default_value": "rc"
     },
-{
+    {
       "id": "ts_kw",
       "type": "keyword",
       "name": "Tracker search",
