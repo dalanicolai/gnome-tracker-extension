@@ -19,7 +19,7 @@
       "id": "cb_lib_path",
       "type": "input",
       "name": "Calibre library folder",
-      "description": "Use onlu when calibre folder path other than default",
+      "description": "Use only when calibre folder path other than default",
       "default_value": "default"
     },
     {
