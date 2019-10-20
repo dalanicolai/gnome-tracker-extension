@@ -64,13 +64,14 @@ class KeywordQueryEventListener(EventListener):
                 for i in text:
                     if 'library_path' in i:
                         calibre_lib_path = i.strip()[17:-1]
-            print(calibre_lib_path)
             
         if keyword == preferences["cb_kw"]:
             import sqlite3
-            print(preferences["cb_lib_path"])
             if not preferences["cb_lib_path"] == 'default':
-                conn = sqlite3.connect(preferences["cb_lib_path"]+"metadata.db")
+                if preferences["cb_lib_path"][-1] == '/':
+                    conn = sqlite3.connect(preferences["cb_lib_path"]+"metadata.db")
+                else:
+                    conn = sqlite3.connect(preferences["cb_lib_path"]+"/metadata.db")
             else:
                 print(calibre_lib_path+"/metadata.db")
                 conn = sqlite3.connect(calibre_lib_path+"/metadata.db")
