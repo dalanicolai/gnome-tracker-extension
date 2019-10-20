@@ -18,6 +18,7 @@ home = os.getenv("HOME")
 appPath = os.path.dirname(os.path.abspath(__file__))
 os.chmod(appPath + '/appchooser.py', 0o755) 
 
+
 def chunks(l, n):
     """Yield successive n-sized chunks from l."""
     for i in range(0, len(l), n):
@@ -56,8 +57,51 @@ class KeywordQueryEventListener(EventListener):
         query_words = event.get_argument()
         if query_words == None:
             query_words = ""
+
+        if preferences["cb_lib_path"] == 'default':
+            with open(home + '/.config/calibre/global.py') as f:
+                text = f.readlines()
+                for i in text:
+                    if 'library_path' in i:
+                        calibre_lib_path = i.strip()[17:-1]
             
-        if keyword == preferences["rc_kw"]:
+        if keyword == preferences["cb_kw"]:
+            import sqlite3
+            if not preferences["cb_lib_path"] == 'default':
+                if preferences["cb_lib_path"][-1] == '/':
+                    conn = sqlite3.connect(preferences["cb_lib_path"]+"metadata.db")
+                else:
+                    conn = sqlite3.connect(preferences["cb_lib_path"]+"/metadata.db")
+            else:
+                print(calibre_lib_path+"/metadata.db")
+                conn = sqlite3.connect(calibre_lib_path+"/metadata.db")
+            c = conn.cursor()
+            queries = query_words.split()
+            
+            if len(queries) == 1:
+                results = c.execute('select title, author_sort, path from books where (title like "%{}%" or author_sort like "%{}%") limit 10'.format(queries[0], queries[0]))
+            elif len(queries) == 2:
+                results = c.execute('select title, author_sort, path from books where (title like "%{}%" or author_sort like "%{}%") and id in (select id from books where title like "%{}%" or author_sort like "%{}%")'.format(queries[1], queries[1], queries[0], queries[0]))
+
+
+            items = []
+            for i in results:
+                cover ='images/gnome.png',
+                pad = '/mnt/4EEDC07F44412A81/Calibrebibliotheek/{}'.format(i[2])
+                for f in os.listdir(pad):
+                    if f.endswith(".pdf") or f.endswith("djvu"):
+                        filepath = os.path.join(pad, f)
+                        print('FILE =', filepath)
+                    if f.endswith(".jpg"):
+                        cover = os.path.join(pad, f)
+                    print("cover = ", cover)
+                data = '%s' %filepath
+                items.append(ExtensionResultItem(icon= '%s' %cover, 
+                                                 name='%s' %i[0],
+                                                 description="%s" %i[1],
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+            
+        elif keyword == preferences["rc_kw"]:
             from recoll import recoll
             db = recoll.connect()
             query = db.query()
@@ -78,7 +122,9 @@ class KeywordQueryEventListener(EventListener):
             
             
             
-        if keyword == preferences["df_kw"]:
+
+
+        elif keyword == preferences["df_kw"]:
             from search import search
             out = search(query_words,28834)
             output = [[doc.getFilename(),doc.getPathStr(),doc.getLastModifiedStr()] for doc in out]

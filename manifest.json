@@ -9,6 +9,20 @@
   },
   "preferences": [
     {
+      "id": "cb_kw",
+      "type": "keyword",
+      "name": "Calibre",
+      "description": "Query calibre database",
+      "default_value": "cb"
+    },
+    {
+      "id": "cb_lib_path",
+      "type": "input",
+      "name": "Calibre library folder",
+      "description": "Use only when calibre folder path other than default",
+      "default_value": "default"
+    },
+    {
       "id": "gt_kw",
       "type": "keyword",
       "name": "Gnome tracker",
