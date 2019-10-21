@@ -68,6 +68,7 @@ class KeywordQueryEventListener(EventListener):
         if keyword == preferences["cb_kw"]:
             import sqlite3
             if not preferences["cb_lib_path"] == 'default':
+                calibre_lib_path = preferences["cb_lib_path"]
                 if preferences["cb_lib_path"][-1] == '/':
                     conn = sqlite3.connect(preferences["cb_lib_path"]+"metadata.db")
                 else:
@@ -87,7 +88,7 @@ class KeywordQueryEventListener(EventListener):
             items = []
             for i in results:
                 cover ='images/gnome.png',
-                pad = '/mnt/4EEDC07F44412A81/Calibrebibliotheek/{}'.format(i[2])
+                pad = calibre_lib_path + '/{}'.format(i[2])
                 for f in os.listdir(pad):
                     if f.endswith(".pdf") or f.endswith("djvu"):
                         filepath = os.path.join(pad, f)
