@@ -107,7 +107,7 @@ class KeywordQueryEventListener(EventListener):
             db = recoll.connect()
             query = db.query()
             query_words_list = query_words.split() 
-            if len(query_words_list) == 1 or not 'g' in query_words_list[:-1]:
+            if not 'g' in query_words_list[:-1]:
                 query.execute(query_words)
                 result_list = query.fetchmany(200)
                 results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list[:15]]
@@ -145,16 +145,24 @@ class KeywordQueryEventListener(EventListener):
         
         else:
             if keyword == preferences["gt_kw"]:
+                query_words_list = query_words.split() 
                 if preferences["autowildcardsearch"] == 'Yes':
                     if " " in query_words: 
                         query_words = "*".join(query_words.split(' ')) + "*"
                     else:
-                        query_words = query_words + "*"
+                        if not 'g' in query_words_list[:-1]:
+                            query_words = query_words
+                        else:
+                            query_words = ' '.join(query_words_list[:query_words_list.index('g')])
                 command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
 #                command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f nie:plainTextContent ?w FILTER regex(?w, '"+query_words+"', 'i') }"]
-                output = subprocess.check_output(command) 
                 output = subprocess.check_output(command, encoding='UTF-8')
-                pre_results = [i.split(', ') for i in output.splitlines()][::-1][1:-1][:20]
+                print('HALLO', output+'\n')
+                if not 'g' in query_words_list[:-1]:
+                    pre_results = [i.split(', ') for i in output.splitlines()][::-1][1:-1][:20]
+                else:
+                    pre_results = [i.split(', ') for i in output.splitlines()[1:-1] if query_words_list[-1].lower() in i][::-1][:20]
+                    print("RES",pre_results)
                 results = [[pre_results[i][0][2:],pre_results[i][1][7:]] for i in range(len(pre_results))]
 
             elif keyword == preferences["ts_kw"]:
