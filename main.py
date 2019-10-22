@@ -106,16 +106,20 @@ class KeywordQueryEventListener(EventListener):
             from recoll import recoll
             db = recoll.connect()
             query = db.query()
-            nres = query.execute(query_words)
-            doc = query.fetchone()
-            ress = query.fetchmany(20)
-            results = [[doc.title, doc.url] for doc in ress]
+            query_words_list = query_words.split() 
+            if len(query_words_list) == 1 or not 'g' in query_words_list[:-1]:
+                query.execute(query_words)
+                result_list = query.fetchmany(200)
+                results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list[:15]]
+            else:
+                query.execute(' '.join(query_words_list[:query_words_list.index('g')]))
+                result_list = query.fetchmany(200)
+                results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list if query_words_list[-1].lower() in doc.filename.lower()]
             #results = sorted(output, key=lambda entry: entry[2])[::-1]
-            print(results)
-            
+
             items = []
             for i in results:
-                data = '%s' %i[1]
+                data = '%s' %i[2]
                 items.append(ExtensionResultItem(icon='images/recoll.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
@@ -171,16 +175,17 @@ class KeywordQueryEventListener(EventListener):
                     results = [[os.path.basename(i),i] for i in pre_results]
                 elif preferences["autowildcardsearch"] == 'No':                
                     if len(words) == 3 and words[1] == 'g':
-                        loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
-                        output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout, encoding='UTF-8')
-                        pre_results = output.splitlines() 
+                        loc = subprocess.run(['locate', '-l', '100', words[0]], capture_output=True)
+                        #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
+                        output = subprocess.run(['grep','-i', '-m','11', words[2]], input=loc.stdout, capture_output=True)
+                        pre_results = output.stdout.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                     elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
-                        loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
-                        grep1 = subprocess.Popen(('grep', words[2]),stdin=loc.stdout, stdout=subprocess.PIPE)
-                        output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout, encoding='UTF-8')
-                        print(output)
-                        pre_results = output.splitlines() 
+                        loc = subprocess.run(['locate', '-l', '100', words[0]], capture_output=True)
+                        #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
+                        grep1 = subprocess.run(['grep','-i', words[2]], input=loc.stdout, capture_output=True)
+                        output = subprocess.run(['grep', '-i', '-m','11', words[4]], input=grep1.stdout, capture_output=True)
+                        pre_results = output.stdout.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                 # Do auto wildcard search if enabled in preferences
                 else:
@@ -202,16 +207,15 @@ class ItemEnterEventListener(EventListener):
 
     def on_event(self, event, extension):
         appchooser_path = appPath + '/appchooser.py'
-        terminal = 'gnome-terminal --working-directory'
         options = [['Open with default application', 'xdg-open','images/detective_penguin.png'],
                    ['Open with other application', appchooser_path, other_application_icon],
                    ['Open with file browser', extension.preferences["filebrowser"], file_browser_icon],
                    ['Open with text editor', extension.preferences["texteditor"], text_editor_icon],
-                   ['Open location in terminal', terminal, terminal_icon]]
+                   ['Open location in {}'.format(extension.preferences["terminal"]), extension.preferences["terminal"], terminal_icon]]
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
-            if i[1] == terminal:
+            if i[1] == extension.preferences["terminal"]:
                 data = os.path.dirname(os.path.abspath(data))
             items.append(ExtensionResultItem(icon=i[2],
                                              name='%s' %i[0],
