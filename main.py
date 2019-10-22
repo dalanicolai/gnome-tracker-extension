@@ -68,6 +68,7 @@ class KeywordQueryEventListener(EventListener):
         if keyword == preferences["cb_kw"]:
             import sqlite3
             if not preferences["cb_lib_path"] == 'default':
+                calibre_lib_path = preferences["cb_lib_path"]
                 if preferences["cb_lib_path"][-1] == '/':
                     conn = sqlite3.connect(preferences["cb_lib_path"]+"metadata.db")
                 else:
@@ -87,7 +88,7 @@ class KeywordQueryEventListener(EventListener):
             items = []
             for i in results:
                 cover ='images/gnome.png',
-                pad = '/mnt/4EEDC07F44412A81/Calibrebibliotheek/{}'.format(i[2])
+                pad = calibre_lib_path + '/{}'.format(i[2])
                 for f in os.listdir(pad):
                     if f.endswith(".pdf") or f.endswith("djvu"):
                         filepath = os.path.join(pad, f)
@@ -105,16 +106,20 @@ class KeywordQueryEventListener(EventListener):
             from recoll import recoll
             db = recoll.connect()
             query = db.query()
-            nres = query.execute(query_words)
-            doc = query.fetchone()
-            ress = query.fetchmany(20)
-            results = [[doc.title, doc.url] for doc in ress]
+            query_words_list = query_words.split() 
+            if len(query_words_list) == 1 or not 'g' in query_words_list[:-1]:
+                query.execute(query_words)
+                result_list = query.fetchmany(200)
+                results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list[:15]]
+            else:
+                query.execute(' '.join(query_words_list[:query_words_list.index('g')]))
+                result_list = query.fetchmany(200)
+                results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list if query_words_list[-1].lower() in doc.filename.lower()]
             #results = sorted(output, key=lambda entry: entry[2])[::-1]
-            print(results)
-            
+
             items = []
             for i in results:
-                data = '%s' %i[1]
+                data = '%s' %i[2]
                 items.append(ExtensionResultItem(icon='images/recoll.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
@@ -170,16 +175,17 @@ class KeywordQueryEventListener(EventListener):
                     results = [[os.path.basename(i),i] for i in pre_results]
                 elif preferences["autowildcardsearch"] == 'No':                
                     if len(words) == 3 and words[1] == 'g':
-                        loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
-                        output = subprocess.check_output(('grep','-m','11', words[2]), stdin=loc.stdout, encoding='UTF-8')
-                        pre_results = output.splitlines() 
+                        loc = subprocess.run(['locate', '-l', '100', words[0]], capture_output=True)
+                        #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
+                        output = subprocess.run(['grep','-i', '-m','11', words[2]], input=loc.stdout, capture_output=True)
+                        pre_results = output.stdout.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                     elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
-                        loc = subprocess.Popen(('locate', words[0]), stdout=subprocess.PIPE)
-                        grep1 = subprocess.Popen(('grep', words[2]),stdin=loc.stdout, stdout=subprocess.PIPE)
-                        output = subprocess.check_output(('grep','-m','11', words[4]), stdin=grep1.stdout, encoding='UTF-8')
-                        print(output)
-                        pre_results = output.splitlines() 
+                        loc = subprocess.run(['locate', '-l', '100', words[0]], capture_output=True)
+                        #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
+                        grep1 = subprocess.run(['grep','-i', words[2]], input=loc.stdout, capture_output=True)
+                        output = subprocess.run(['grep', '-i', '-m','11', words[4]], input=grep1.stdout, capture_output=True)
+                        pre_results = output.stdout.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                 # Do auto wildcard search if enabled in preferences
                 else:
