@@ -183,17 +183,17 @@ class KeywordQueryEventListener(EventListener):
                     results = [[os.path.basename(i),i] for i in pre_results]
                 elif preferences["autowildcardsearch"] == 'No':                
                     if len(words) == 3 and words[1] == 'g':
-                        loc = subprocess.run(['locate', '-l', '100', words[0]], capture_output=True)
+                        loc = subprocess.Popen(['locate', '-l', '100', words[0]], stdout=subprocess.PIPE)
                         #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
-                        output = subprocess.run(['grep','-i', '-m','11', words[2]], input=loc.stdout, capture_output=True)
-                        pre_results = output.stdout.splitlines() 
+                        output = subprocess.check_output(['grep','-i', '-m','11', words[2]], stdin=loc.stdout, encoding='UTF-8')
+                        pre_results = output.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                     elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
-                        loc = subprocess.run(['locate', '-l', '100', words[0]], capture_output=True)
+                        loc = subprocess.Popen(['locate', '-l', '100', words[0]], stdout=subprocess.PIPE)
                         #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
-                        grep1 = subprocess.run(['grep','-i', words[2]], input=loc.stdout, capture_output=True)
-                        output = subprocess.run(['grep', '-i', '-m','11', words[4]], input=grep1.stdout, capture_output=True)
-                        pre_results = output.stdout.splitlines() 
+                        grep1 = subprocess.Popen(['grep','-i', words[2]], stdin=loc.stdout, stdout=subprocess.PIPE)
+                        output = subprocess.check_output(['grep', '-i', '-m','11', words[4]], stdin=grep1.stdout, encoding='UTF-8')
+                        pre_results = output.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                 # Do auto wildcard search if enabled in preferences
                 else:
@@ -205,6 +205,7 @@ class KeywordQueryEventListener(EventListener):
             items = []
             for i in results:
                 data = '%s' %i[1]
+                print(data)
                 items.append(ExtensionResultItem(icon='images/gnome.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
