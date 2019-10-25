@@ -68,23 +68,23 @@
     {
       "id": "filebrowser",
       "type": "input",
-      "name": "Default File Browser",
-      "description": "default is 'nautilus', but you can change this to use a different file manager you have installed.",
+      "name": "Custom File Browser",
+      "description": "default is 'nautilus' but you can change this to use a different file manager you have installed.",
       "default_value": "nautilus"
     },
     {
       "id": "texteditor",
       "type": "input",
-      "name": "Default Text Editor",
-      "description": "Default is 'gedit', but you can change this to point to any other text editor you have installed",
+      "name": "Custom Text Editor",
+      "description": "Default is 'gedit' but you can change this to point to any other text editor you have installed",
       "default_value": "gedit"
     },
     {
       "id": "terminal",
       "type": "input",
-      "name": "Default Terminal",
-      "description": "Default is 'gnome-terminal', but you can change this to point to any other text editor you have installed",
-      "default_value": "gnome-terminal"
+      "name": "Custom Terminal",
+      "description": "Default is 'gnome-terminal --working-directory='. Change to full command to open a location in your preferred terminal.",
+      "default_value": "gnome-terminal --working-directory="
     }
   ]
 }

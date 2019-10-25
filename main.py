@@ -224,12 +224,16 @@ class ItemEnterEventListener(EventListener):
         data = event.get_data().replace("%20"," ")
         items = []
         for i in options:
+            if not i[1].endswith('='):
+                i[1]=i[1]+' '
+            print("%s '%s'"% (i[1], data))
             if i[1] == extension.preferences["terminal"]:
                 data = os.path.dirname(os.path.abspath(data))
             items.append(ExtensionResultItem(icon=i[2],
                                              name='%s' %i[0],
                                              description="%s" % data,
-                                             on_enter=RunScriptAction("%s '%s'" % (i[1], data), None)))
+                                             on_enter=RunScriptAction('{}"{}"'.format(i[1], data), None)))
+
         return RenderResultListAction(items)
 
 if __name__ == '__main__':
