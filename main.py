@@ -90,7 +90,7 @@ class KeywordQueryEventListener(EventListener):
                 cover ='images/gnome.png',
                 pad = calibre_lib_path + '/{}'.format(i[2])
                 for f in os.listdir(pad):
-                    if f.endswith(".pdf") or f.endswith("djvu"):
+                    if f.split('.')[-1] in ['pdf', 'djvu', 'epub']: 
                         filepath = os.path.join(pad, f)
                         print('FILE =', filepath)
                     if f.endswith(".jpg"):
