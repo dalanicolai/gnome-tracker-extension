@@ -1,5 +1,8 @@
+![Extension logo](images/detective_penguin.png) image source: www.wpclipart.com
+
 # Tracker/recoll/docfetcher/locate/ deep file search + calibre database search
 Ulauncher extension for deep search the filesystem or the calibre database via the gnome tracker / docfetcher / locate index and calibre database file, handle the results in multiple ways (e.g. opening in default application).
+
 
 #### If you like this extension then consider to star it on github so people can find it more easily (by sorting on github stars on the ulauncher extension page)  
 
