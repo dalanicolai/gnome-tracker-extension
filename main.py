@@ -108,13 +108,21 @@ class KeywordQueryEventListener(EventListener):
             query = db.query()
             query_words_list = query_words.split() 
             if not 'g' in query_words_list[:-1]:
-                query.execute(query_words)
-                result_list = query.fetchmany(200)
-                results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list[:15]]
+                res = query.execute(query_words)
+                if res < 200:
+                    result_list = query.fetchmany(res)
+                    results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list[:15]]
+                else:
+                    result_list = query.fetchmany(200)
+                    results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list[:15]]
             else:
                 query.execute(' '.join(query_words_list[:query_words_list.index('g')]))
-                result_list = query.fetchmany(200)
-                results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list if query_words_list[-1].lower() in doc.filename.lower()]
+                if res < 200:
+                    result_list = query.fetchmany(res)
+                    results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list if query_words_list[-1].lower() in doc.filename.lower()]
+                else:
+                    result_list = query.fetchmany(200)
+                    results = [[doc.filename, query.makedocabstract(doc)[:80], doc.url] for doc in result_list if query_words_list[-1].lower() in doc.filename.lower()]
             #results = sorted(output, key=lambda entry: entry[2])[::-1]
 
             items = []
