@@ -12,7 +12,7 @@ A running gnome-tracker daemon + tracker index (for gt and ts keywords)
 A recoll index and the recoll python api (for the rc keyword)
 A docfetcher daemon and index (for the df keyword)
 
-A working daemon and index can be tested respectively in the terminal using the "tracker search" command (gt and ts), with the recoll gui (rc) or with the docfetcher gui (df)  
+A working daemon and index can be tested respectively in the terminal using the 'tracker search' command (gt and ts), with the recoll gui (rc) or with the docfetcher gui (df)  
 
 A calibre sqlite database file (for the cb keyword)
 
