@@ -4,7 +4,7 @@
 Ulauncher extension for deep searching the filesystem or the calibre database via the recoll / gnome tracker / docfetcher / locate index or calibre database file and handle the results in multiple ways (e.g. opening in default application).
 
 
-#### If you like this extension then consider to star it on github so people can find it more easily (by sorting on github stars on the ulauncher extension page)  
+#### If you like this extension then consider to star it on github so people can find it more easily (by sorting on github stars on the [ulauncher extension page](https://ext.ulauncher.io/))  
 
 ## Requirements
 
