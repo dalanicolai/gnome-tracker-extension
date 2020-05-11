@@ -58,4 +58,4 @@ Add the plugin via the extension menu in the ulauncher settings using the URL: h
 
 ### Contact
 
-To report any bugs or if you have any requests or comments relating to this extension send an e-mail to dalanicolai@gmail.com, or just open an issue here on github.
+To report any bugs or if your have any requests or comments relating to this extension send an e-mail to dalanicolai@gmail.com, or just open an issue here on github.
