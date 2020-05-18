@@ -8,9 +8,9 @@ Ulauncher extension for deep searching the filesystem or the calibre database vi
 
 ## Requirements
 
-A running gnome-tracker daemon + tracker index (for gt and ts keywords)
-A recoll index and the recoll python api (for the rc keyword)
-A docfetcher daemon and index (for the df keyword)
+* A running gnome-tracker daemon + tracker index (for gt and ts keywords)
+* A recoll index and the recoll python api (for the rc keyword)
+* A docfetcher daemon and index + setting the variable `PythonApiEnabled = true` in the 'program-conf.txt' file of the 'conf' subdirectory of your docfetcher directory (for the df keyword). The instructions about the `PythonApiEnabled` variable are given in the search.py file of your 'docfetcher' directory.
 
 A working daemon and index can be tested respectively in the terminal using the 'tracker search' command (gt and ts), with the recoll gui (rc) or with the docfetcher gui (df)  
 
