@@ -54,7 +54,7 @@ Add the plugin via the extension menu in the ulauncher settings using the URL: h
 
 * The appchooser.py is a small script that launches a gtk application chooser window. 
 
-* This extension might be useful to use as a template for other seach extensions. Also, if you know some python, its (search) behavior can be easily adapted to you own preferences by adapting the code in main.py.
+* This extension might be useful to use as a template for other seach extensions. Also, if you know some python, its (search) behavior can be easily adapted to your own preferences by adapting the code in main.py.
 
 ### Contact
 
