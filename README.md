@@ -45,6 +45,8 @@ The calibre keyword (default: cb) searches in the title and author_sort (**can b
 
 If you really want the **optimal PDF and calibre experience** (at least on linux and mac) then you should try out [Spac(Emacs)](https://develop.spacemacs.org/#) with the [PDF layer](https://develop.spacemacs.org/layers/+readers/pdf/README.html) (or [PDF-tools package](https://github.com/politza/pdf-tools)) in addition with the [calibre-layer](https://github.com/dalanicolai/calibre-layer) (or [calibredb package](https://github.com/chenyanming/calibredb.el)).
 
+(For vim users... I find Spacemacs provides an even better (or more awesome) vim than vim itself... you should really check it out.)
+
 ## Installation
 
 Add the plugin via the extension menu in the ulauncher settings using the URL: https://github.com/dalanicolai/gnome-tracker-extension
