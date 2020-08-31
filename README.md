@@ -43,6 +43,7 @@ The rc keyword supports the very powerful recoll query syntax as documented [her
 
 The calibre keyword (default: cb) searches in the title and author_sort (**can be different from te author field,** see book's metadata) fields and can handle two query patterns separated by a space (e.g. "cb hello dan") where the search is case insensitive and includes wildcards before and after the patterns.
 
+If you really want the **optimal PDF and calibre experience** (at least on linux and mac) then you should try out [Spac(Emacs)](https://develop.spacemacs.org/#) with the [PDF layer](https://develop.spacemacs.org/layers/+readers/pdf/README.html) (or [PDF-tools package](https://github.com/politza/pdf-tools)) in addition with the [calibre-layer](https://github.com/dalanicolai/calibre-layer) (or [calibredb package](https://github.com/chenyanming/calibredb.el)).
 
 ## Installation
 
