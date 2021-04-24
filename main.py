@@ -208,7 +208,7 @@ class KeywordQueryEventListener(EventListener):
                         results = [[os.path.basename(i),i] for i in pre_results]
                 # Do auto wildcard search if enabled in preferences
                 else:
-                    output = subprocess.check_output(['locate', '-i', '-l', '11', '-r', "*" + "*".join(words) + "*"], encoding='UTF-8')
+                    output = subprocess.check_output(['locate', '-i', '-l', '11', '-r', ".*" + ".*".join(words) + ".*"], encoding='UTF-8')
                     pre_results = output.splitlines() 
                     results = [[os.path.basename(i),i] for i in pre_results]
 
