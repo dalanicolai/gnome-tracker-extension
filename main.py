@@ -189,18 +189,18 @@ class KeywordQueryEventListener(EventListener):
             elif keyword == preferences["lc_kw"]:
                 words = query_words.split(' ')
                 if len(words) == 1:
-                    output = subprocess.check_output(['locate','-l','11', query_words], encoding='UTF-8')
+                    output = subprocess.check_output(['locate', '-i', '-l','11', query_words], encoding='UTF-8')
                     pre_results = output.splitlines() 
                     results = [[os.path.basename(i),i] for i in pre_results]
                 elif preferences["autowildcardsearch"] == 'No':                
                     if len(words) == 3 and words[1] == 'g':
-                        loc = subprocess.Popen(['locate', '-l', '100000', words[0]], stdout=subprocess.PIPE)
+                        loc = subprocess.Popen(['locate', '-i', '-l', '100000', words[0]], stdout=subprocess.PIPE)
                         #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
                         output = subprocess.check_output(['grep','-i', '-m','11', words[2]], stdin=loc.stdout, encoding='UTF-8')
                         pre_results = output.splitlines() 
                         results = [[os.path.basename(i),i] for i in pre_results]
                     elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
-                        loc = subprocess.Popen(['locate', '-l', '100000', words[0]], stdout=subprocess.PIPE)
+                        loc = subprocess.Popen(['locate', '-i', '-l', '100000', words[0]], stdout=subprocess.PIPE)
                         #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
                         grep1 = subprocess.Popen(['grep','-i', words[2]], stdin=loc.stdout, stdout=subprocess.PIPE)
                         output = subprocess.check_output(['grep', '-i', '-m','11', words[4]], stdin=grep1.stdout, encoding='UTF-8')
