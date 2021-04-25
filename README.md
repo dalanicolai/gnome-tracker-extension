@@ -29,7 +29,19 @@ This extension provides filesystem deep search functionality (i.e. full text sea
 
 ### Tracker/recoll/docfetcher and locate keywords
 
-Type keyword followed by a search term. Tracker (default: gt and ts), recoll (default: rc) and docfetcher (default: df) by default search case-insensitive for matches with full words. However all these keywords allow to use wildcards (use symbol * ) at the and of a search term. As the tracker and recoll searches can return many results these searches can be narrowed down by an single grep using g followed by the keyword (see image) where the grep works only on the filename field. The locate keyword can be extended twice with a grep using g keyword (see image). 
+Type keyword followed by a search term. The locate keyword uses locate with the
+-i (case-insensitive) and the -r (regexp) flags to search for the query, which
+must be a single regexp without space (for historic reasons, but if a space
+should be included than simply adding a grep covers most cases. You are welcome
+to extend the functionality. I am using the really elegant and powerful
+[Spacemacs](https://www.spacemacs.org/) now instead of this extension...). The
+results can be narrowed down twice with a grep using g keyword (see image).
+Tracker (default: gt and ts), recoll (default: rc) and docfetcher (default: df)
+by default search case-insensitive for matches with full words. However all
+these keywords allow to use wildcards (use symbol * ) at the and of a search
+term. As the tracker and recoll searches can return many results these searches
+can be narrowed down by an single grep using g followed by the keyword (see
+image) where the grep works only on the filename field.
 
 #### Use wildcards by default
 

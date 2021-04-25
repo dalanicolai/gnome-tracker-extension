@@ -188,6 +188,7 @@ class KeywordQueryEventListener(EventListener):
 
             elif keyword == preferences["lc_kw"]:
                 words = query_words.split(' ')
+                # first_part = words.index("g")
                 if len(words) == 1:
                     output = subprocess.check_output(['locate', '-i', '-l', '11', '-r', query_words], encoding='UTF-8')
                     pre_results = output.splitlines() 
