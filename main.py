@@ -16,7 +16,7 @@ from ulauncher.api.shared.action.RunScriptAction import RunScriptAction
 
 home = os.getenv("HOME")
 appPath = os.path.dirname(os.path.abspath(__file__))
-os.chmod(appPath + '/appchooser.py', 0o755) 
+os.chmod(appPath + '/appchooser.py', 0o755)
 
 
 def chunks(l, n):
@@ -51,7 +51,7 @@ class GnomeTrackerExtension(Extension):
 class KeywordQueryEventListener(EventListener):
 
     def on_event(self, event, extension):
-        
+
         keyword = event.get_keyword()
         preferences = extension.preferences
         query_words = event.get_argument()
@@ -67,7 +67,7 @@ class KeywordQueryEventListener(EventListener):
                             calibre_lib_path = i.strip()[17:-1]
             except FileNotFoundError:
                 pass
-            
+
         if keyword == preferences["cb_kw"]:
             import sqlite3
             if not preferences["cb_lib_path"] == 'default':
@@ -81,7 +81,7 @@ class KeywordQueryEventListener(EventListener):
                 conn = sqlite3.connect(calibre_lib_path+"/metadata.db")
             c = conn.cursor()
             queries = query_words.split()
-            
+
             if len(queries) == 1:
                 results = c.execute('select title, author_sort, path from books where (title like "%{}%" or author_sort like "%{}%") limit 10'.format(queries[0], queries[0]))
             elif len(queries) == 2:
@@ -93,23 +93,23 @@ class KeywordQueryEventListener(EventListener):
                 cover ='images/gnome.png',
                 pad = calibre_lib_path + '/{}'.format(i[2])
                 for f in os.listdir(pad):
-                    if f.split('.')[-1] in ['pdf', 'djvu', 'epub']: 
+                    if f.split('.')[-1] in ['pdf', 'djvu', 'epub']:
                         filepath = os.path.join(pad, f)
                         print('FILE =', filepath)
                     if f.endswith(".jpg"):
                         cover = os.path.join(pad, f)
                     print("cover = ", cover)
                 data = '%s' %filepath
-                items.append(ExtensionResultItem(icon= '%s' %cover, 
+                items.append(ExtensionResultItem(icon= '%s' %cover,
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
                                                  on_enter=ExtensionCustomAction(data, keep_app_open=True)))
-            
+
         elif keyword == preferences["rc_kw"]:
             from recoll import recoll
             db = recoll.connect()
             query = db.query()
-            query_words_list = query_words.split() 
+            query_words_list = query_words.split()
             if not 'g' in query_words_list[:-1]:
                 res = query.execute(query_words)
                 if res < 200:
@@ -134,10 +134,10 @@ class KeywordQueryEventListener(EventListener):
                 items.append(ExtensionResultItem(icon='images/recoll.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
-                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))  
-            
-            
-            
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+
+
+
 
 
         elif keyword == preferences["df_kw"]:
@@ -152,21 +152,21 @@ class KeywordQueryEventListener(EventListener):
                 items.append(ExtensionResultItem(icon='images/docfetcher.png',
                                                  name='%s' %i[0],
                                                  description="%s" %i[1],
-                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))     
-        
+                                                 on_enter=ExtensionCustomAction(data, keep_app_open=True)))
+
         else:
             if keyword == preferences["gt_kw"]:
-                query_words_list = query_words.split() 
+                query_words_list = query_words.split()
                 if preferences["autowildcardsearch"] == 'Yes':
-                    if " " in query_words: 
+                    if " " in query_words:
                         query_words = "*".join(query_words.split(' ')) + "*"
                     else:
                         if not 'g' in query_words_list[:-1]:
                             query_words = query_words
                         else:
                             query_words = ' '.join(query_words_list[:query_words_list.index('g')])
-                command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
-#                command = ['tracker', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f nie:plainTextContent ?w FILTER regex(?w, '"+query_words+"', 'i') }"]
+                command = ['tracker3', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f fts:match '"+query_words+"' } ORDER BY nfo:fileLastAccessed(?f)"]
+#                command = ['tracker3', 'sparql', '-q', "SELECT nfo:fileName(?f) nie:url(?f) WHERE { ?f nie:url ?url FILTER(fn:starts-with(?url, \'file://" + home + "/\')) . ?f nie:plainTextContent ?w FILTER regex(?w, '"+query_words+"', 'i') }"]
                 output = subprocess.check_output(command, encoding='UTF-8')
                 print('HALLO', output+'\n')
                 if not 'g' in query_words_list[:-1]:
@@ -179,7 +179,7 @@ class KeywordQueryEventListener(EventListener):
             elif keyword == preferences["ts_kw"]:
                 import re
 
-                out1 = subprocess.check_output(['tracker','search',query_words], encoding='UTF-8')
+                out1 = subprocess.check_output(['tracker3','search',query_words], encoding='UTF-8')
                 out2 = [i for i in out1.splitlines()]
                 out3 = [re.sub('\x1b[^m]*m', '', i).strip() for i in out2[1:]]
                 pre_results = list(chunks(out3,3))[:-1]
@@ -191,26 +191,26 @@ class KeywordQueryEventListener(EventListener):
                 # first_part = words.index("g")
                 if len(words) == 1:
                     output = subprocess.check_output(['locate', '-i', '-l', '11', '-r', query_words], encoding='UTF-8')
-                    pre_results = output.splitlines() 
+                    pre_results = output.splitlines()
                     results = [[os.path.basename(i),i] for i in pre_results]
-                elif preferences["autowildcardsearch"] == 'No':                
+                elif preferences["autowildcardsearch"] == 'No':
                     if len(words) == 3 and words[1] == 'g':
                         loc = subprocess.Popen(['locate', '-i', '-l', '100000', '-r', words[0]], stdout=subprocess.PIPE)
                         #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
                         output = subprocess.check_output(['grep','-i', '-m','11', words[2]], stdin=loc.stdout, encoding='UTF-8')
-                        pre_results = output.splitlines() 
+                        pre_results = output.splitlines()
                         results = [[os.path.basename(i),i] for i in pre_results]
                     elif len(words) == 5 and words[1] == 'g' and words [3] == 'g':
                         loc = subprocess.Popen(['locate', '-i', '-l', '100000', '-r', words[0]], stdout=subprocess.PIPE)
                         #output = subprocess.run(['grep','-i', '-m','11', 'rey'], input=loc.stdout, capture_output=True)
                         grep1 = subprocess.Popen(['grep','-i', words[2]], stdin=loc.stdout, stdout=subprocess.PIPE)
                         output = subprocess.check_output(['grep', '-i', '-m','11', words[4]], stdin=grep1.stdout, encoding='UTF-8')
-                        pre_results = output.splitlines() 
+                        pre_results = output.splitlines()
                         results = [[os.path.basename(i),i] for i in pre_results]
                 # Do auto wildcard search if enabled in preferences
                 else:
                     output = subprocess.check_output(['locate', '-i', '-l', '11', '-r', ".*" + ".*".join(words) + ".*"], encoding='UTF-8')
-                    pre_results = output.splitlines() 
+                    pre_results = output.splitlines()
                     results = [[os.path.basename(i),i] for i in pre_results]
 
 
